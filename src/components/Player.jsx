@@ -1,17 +1,27 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 
-export default function Player({name,symbol}) {
-    const [isEditing, setIsEditing] = useState(false)
+export default function Player({ initialName, symbol }) {
+    const [playerName, setPlayerName] = useState(initialName);
+    const [isEditing, setIsEditing] = useState(false);
 
-    function handleEditClick(){
+    function handleEditClick() {
         setIsEditing((editing) => !editing);
         // setIsEditing((editing) => !editing);
-        
-
     }
-    let player = <span className="player-name">{name}</span>;
-    if(isEditing){
-        player = <input type="text" required value={name}></input>
+    function handleChange(event) {
+        setPlayerName(event.target.value);
+    }
+    let player = <span className="player-name">{playerName}</span>;
+    if (isEditing) {
+        player = (
+            <input
+                type="text"
+                required
+                value={playerName}
+                onChange={handleChange}
+            ></input>
+        );
     }
     return (
         <>
@@ -20,7 +30,9 @@ export default function Player({name,symbol}) {
                     {player}
                     <span className="player-symbol">{symbol}</span>
                 </span>
-                <button onClick={handleEditClick}>{isEditing ? "Save" : "Edit"}</button>
+                <button onClick={handleEditClick}>
+                    {isEditing ? "Save" : "Edit"}
+                </button>
             </li>
         </>
     );
